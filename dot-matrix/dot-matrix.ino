@@ -44,8 +44,13 @@ void pushFrame(int dx, int dy) {
       int before = layers[x][i - 1];
       int nx = x + dx;
       if (nx >= 0 && nx <= SIZE) {
-        layers[nx][i] = (dy > 0) ? (before << dy ^ 0x01) // need to make sure the right most bit is off
-                                 : (before >> abs(dy) | 0x80); // need to make sure the left most bit is on
+        if (dy > 0) {
+          layers[nx][i] = before << dy ^ 0x01; // need to make sure the right most bit is off
+        } else if (dy < 0) {
+          layers[nx][i] = before >> abs(dy) | 0x80; // need to make sure the left most bit is on
+        } else {
+          layers[nx][i] = before;
+        }
       }
     }
   }
