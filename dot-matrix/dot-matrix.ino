@@ -10,9 +10,9 @@
 #define ON 0x00
 #define OFF 0xFF
 
-int frameCount = 0;
-
 int layers[SIZE][SIZE];
+
+int frameCount = 0;
 
 void setup() {
   pinMode(LATCH_PIN, OUTPUT);
@@ -28,10 +28,14 @@ void setup() {
 }
 
 void loop() {
-  frame();
-  pushFrame(0, -1);
-  clear();
+  update();
+  draw();
+  for (int i = 0; i < TIMES; i++){
+    drawLayers(i);
+  }
+  pushFrame(1, 1);
   frameCount++;
+  clear();
 }
 
 void pushFrame(int dx, int dy) {
@@ -47,12 +51,7 @@ void pushFrame(int dx, int dy) {
   }
 }
 
-void frame() {
-  for (int i = 0; i < TIMES; i++){
-    draw(i);
-    drawLayers(i);
-  }
-  runGameOfLife();
+void update() {
 }
 
 void clear() {
@@ -65,15 +64,19 @@ void clearLayer(int i) {
   }
 }
 
-void draw(int iteration) {
+void draw() {
+  // runGameOfLife();
   // drawGameOfLife();
+
   // verticalLine(7);
   // horizontalLine(7 - frameCount % 8);
   // dot(frameCount % 8, frameCount % 8);
-  dot(0, oscillate(0, 8));
-  dot(7, oscillate(0, 8));
+  // dot(0, oscillate(0, 8));
+  // dot(7, oscillate(0, 8));
   // majorDiagonal(oscillate(-8, 8));
   // minorDiagonal(oscillate(-8, 8, 8));
+  randomDot();
+
   // drawChar(0x1);
   // cycleChars();
 }
@@ -103,31 +106,6 @@ void drawLayers(int iteration) {
     drawCol(c, col);
   }
 }
-
-void verticalLine(int col) {
-  setCol(col, ON);
-}
-
-void horizontalLine(int row) {
-  for (int c = 0; c < SIZE; c++) {
-    dot(row, c);
-  }
-}
-
-void majorDiagonal(int offset) {
-  for (int x = 0; x < SIZE; x++) {
-    int y = SIZE - x + offset;
-    if (y >= 0 && y < SIZE) dot(x, y);
-  }
-}
-
-void minorDiagonal(int offset) {
-  for (int x = 0; x < SIZE; x++) {
-    int y = x + offset;
-    if (y >= 0 && y < SIZE) dot(x, y);
-  }
-}
-
 
 void dot(int row, int col) {
   unsigned char mask = (0x01 << row) ^ 0xFF;
