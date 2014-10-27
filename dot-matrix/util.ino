@@ -7,7 +7,7 @@ int oscillate(int min, int max) {
 }
 
 int oscillate(int min, int max, int frameOffset) {
-  int range = abs(max - min);
+  int range = abs(max - min) - 1;
   int fc = frameCount + frameOffset;
   boolean even = (fc / range & 0x01) == 0;
   int offset = fc % range;
