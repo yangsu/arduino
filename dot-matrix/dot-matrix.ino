@@ -7,9 +7,12 @@
 #define SIZE 8
 #define DRAW_DELAY 0
 
+#define ON 0x00
+#define OFF 0xFF
+
 int frameCount = 0;
 
-unsigned char layers[SIZE][SIZE];
+int layers[SIZE][SIZE];
 
 void setup() {
   pinMode(LATCH_PIN, OUTPUT);
@@ -19,22 +22,27 @@ void setup() {
   randomSeed(analogRead(0));
   addNewCreature();
 
-  for (int iteration = 0; iteration < SIZE; iteration++) {
-    clearLayer(iteration);
+  for (int i = 0; i < SIZE; i++) {
+    clearLayer(i);
   }
 }
 
 void loop() {
   frame();
-  pushFrame();
+  pushFrame(0, -1);
   clear();
   frameCount++;
 }
 
-void pushFrame() {
-  for (int iteration = SIZE - 1; iteration > 0; iteration--) {
+void pushFrame(int dx, int dy) {
+  for (int i = SIZE - 1; i > 0; i--) {
     for (int x = 0; x < SIZE; x++) {
-      layers[x][iteration] = layers[x][iteration - 1];
+      int before = layers[x][i - 1];
+      int nx = x + dx;
+      if (nx >= 0 && nx <= SIZE) {
+        layers[nx][i] = (dy > 0) ? (before << dy ^ 0x01) // need to make sure the right most bit is off
+                                 : (before >> abs(dy) | 0x80); // need to make sure the left most bit is on
+      }
     }
   }
 }
@@ -53,18 +61,20 @@ void clear() {
 
 void clearLayer(int i) {
   for (int c = 0; c < SIZE; c++) {
-    layers[c][i] = 0xFF;
+    layers[c][i] = OFF;
   }
 }
 
 void draw(int iteration) {
   // drawGameOfLife();
-  // verticalLine(frameCount % 8);
+  // verticalLine(7);
   // horizontalLine(7 - frameCount % 8);
   // dot(frameCount % 8, frameCount % 8);
-  majorDiagonal(oscillate(-8, 8));
-  minorDiagonal(oscillate(-8, 8, 8));
-  // drawChar(0xA);
+  dot(0, oscillate(0, 8));
+  dot(7, oscillate(0, 8));
+  // majorDiagonal(oscillate(-8, 8));
+  // minorDiagonal(oscillate(-8, 8, 8));
+  // drawChar(0x1);
   // cycleChars();
 }
 
@@ -95,7 +105,7 @@ void drawLayers(int iteration) {
 }
 
 void verticalLine(int col) {
-  setCol(col, 0x00);
+  setCol(col, ON);
 }
 
 void horizontalLine(int row) {
