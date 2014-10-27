@@ -22,10 +22,6 @@ void minorDiagonal(int offset) {
   }
 }
 
-int rand() {
-  return random(SIZE);
-}
-
 void randomDot() {
   dot(rand(), rand());
 }

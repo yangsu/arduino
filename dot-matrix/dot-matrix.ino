@@ -33,7 +33,7 @@ void loop() {
   for (int i = 0; i < TIMES; i++){
     drawLayers(i);
   }
-  pushFrame(0, 1);
+  pushFrame(0, 0);
   frameCount++;
   clear();
 }
@@ -52,6 +52,7 @@ void pushFrame(int dx, int dy) {
 }
 
 void update() {
+  // runGameOfLife();
 }
 
 void clear() {
@@ -65,7 +66,6 @@ void clearLayer(int i) {
 }
 
 void draw() {
-  // runGameOfLife();
   // drawGameOfLife();
 
   // verticalLine(7);
@@ -75,22 +75,13 @@ void draw() {
   // dot(7, oscillate(0, 8));
   // majorDiagonal(oscillate(-8, 8));
   // minorDiagonal(oscillate(-8, 8, 8));
-  randomDotInRow(0);
+  int count = random(10);
+  for (int i = 0; i < count; i++) {
+    randomDot();
+  }
 
   // drawChar(0x1);
   // cycleChars();
-}
-
-int oscillate(int min, int max) {
-  return oscillate(min, max, 0);
-}
-
-int oscillate(int min, int max, int frameOffset) {
-  int range = abs(max - min);
-  int fc = frameCount + frameOffset;
-  boolean even = (fc / range & 0x01) == 0;
-  int offset = fc % range;
-  return even ? max - offset : min + offset;
 }
 
 void drawLayers(int iteration) {
