@@ -33,7 +33,7 @@ void loop() {
   for (int i = 0; i < TIMES; i++){
     drawLayers(i);
   }
-  pushFrame(1, 1);
+  pushFrame(0, 1);
   frameCount++;
   clear();
 }
@@ -75,7 +75,7 @@ void draw() {
   // dot(7, oscillate(0, 8));
   // majorDiagonal(oscillate(-8, 8));
   // minorDiagonal(oscillate(-8, 8, 8));
-  randomDot();
+  randomDotInRow(0);
 
   // drawChar(0x1);
   // cycleChars();

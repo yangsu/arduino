@@ -22,8 +22,18 @@ void minorDiagonal(int offset) {
   }
 }
 
+int rand() {
+  return random(SIZE);
+}
+
 void randomDot() {
-  int x = random(SIZE);
-  int y = random(SIZE);
-  dot(x, y);
+  dot(rand(), rand());
+}
+
+void randomDotInRow(int row) {
+  dot(row, rand());
+}
+
+void randomDotInCol(int col) {
+  dot(rand(), col);
 }
