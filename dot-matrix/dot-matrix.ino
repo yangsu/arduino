@@ -63,33 +63,20 @@ void draw(int iteration) {
   // horizontalLine(7 - frameCount % 8);
   // dot(frameCount % 8, frameCount % 8);
   // drawChar(0xA);
-  // cycleChars();
+  cycleChars();
 }
 
 void drawLayers(int iteration) {
   for (int c = 0; c < SIZE; c++) {
-    drawCol(c, layers[c][0]);
-    if ((iteration % 2) == 0) {
-      drawCol(c, layers[c][1]);
-    }
-    if ((iteration % 4) == 0) {
-      drawCol(c, layers[c][2]);
-    }
-    if ((iteration % 8) == 0) {
-      drawCol(c, layers[c][3]);
-    }
-    if ((iteration % 16) == 0) {
-      drawCol(c, layers[c][4]);
-    }
-    if ((iteration % 32) == 0) {
-      drawCol(c, layers[c][5]);
-    }
-    if ((iteration % 64) == 0) {
-      drawCol(c, layers[c][6]);
-    }
-    if ((iteration % 128) == 0) {
-      drawCol(c, layers[c][7]);
-    }
+    int col = layers[c][0];
+    if ((iteration % 2) == 0) col &= layers[c][1];
+    if ((iteration % 4) == 0) col &= layers[c][2];
+    if ((iteration % 8) == 0) col &= layers[c][3];
+    if ((iteration % 16) == 0) col &= layers[c][4];
+    if ((iteration % 32) == 0) col &= layers[c][5];
+    if ((iteration % 64) == 0) col &= layers[c][6];
+    if ((iteration % 128) == 0) col &= layers[c][7];
+    drawCol(c, col);
   }
 }
 

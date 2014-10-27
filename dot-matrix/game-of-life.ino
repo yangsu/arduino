@@ -66,10 +66,6 @@ boolean boards[][SIZE][SIZE] = {
   },
 };
 
-int wrap(int x, int m) {
-  return (x + m) % m;
-}
-
 int getNeighborCount(int x, int y) {
   int nc = 0;
   for (int xi = x - 1, xEnd = x + 1; xi <= xEnd; xi++) {
