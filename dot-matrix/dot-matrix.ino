@@ -62,8 +62,10 @@ void draw(int iteration) {
   // verticalLine(frameCount % 8);
   // horizontalLine(7 - frameCount % 8);
   // dot(frameCount % 8, frameCount % 8);
+  majorDiagonal((frameCount % 16) - 8);
+  minorDiagonal((frameCount % 16) - 8);
   // drawChar(0xA);
-  cycleChars();
+  // cycleChars();
 }
 
 void drawLayers(int iteration) {
@@ -89,6 +91,21 @@ void horizontalLine(int row) {
     dot(row, c);
   }
 }
+
+void majorDiagonal(int offset) {
+  for (int x = 0; x < SIZE; x++) {
+    int y = SIZE - x + offset;
+    if (y >= 0 && y < SIZE) dot(x, y);
+  }
+}
+
+void minorDiagonal(int offset) {
+  for (int x = 0; x < SIZE; x++) {
+    int y = x + offset;
+    if (y >= 0 && y < SIZE) dot(x, y);
+  }
+}
+
 
 void dot(int row, int col) {
   unsigned char mask = (0x01 << row) ^ 0xFF;
