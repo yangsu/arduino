@@ -1,9 +1,9 @@
 #define T true
 #define F false
+#define BOARDS 5
 
 boolean board[SIZE][SIZE];
 
-#define BOARDS 5
 boolean boards[][SIZE][SIZE] = {
   // R-pentomino
   {
@@ -125,7 +125,7 @@ void addNewCreature() {
 void drawGameOfLife() {
   for (int i = 0; i < SIZE; i++) {
     for (int j = 0; j < SIZE; j++) {
-      if (board[i][j]) drawDot(i, j, DEFAULT_DELAY);
+      if (board[i][j]) dot(i, j);
     }
   }
 }
