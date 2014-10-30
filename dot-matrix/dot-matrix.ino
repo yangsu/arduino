@@ -1,6 +1,11 @@
 #define LATCH_PIN 8 //Pin connected to ST_CP of 74HC595
 #define CLOCK_PIN 12 //Pin connected to SH_CP of 74HC595
 #define DATA_PIN 11 //Pin connected to DS of 74HC595
+#define PIR_PIN A0
+#define PIR_PIN2 A1
+#define PIR_PIN3 A2
+#define PIR_PIN4 A3
+#define PIR_PIN5 A4
 
 // params
 #define TIMES 30
@@ -18,13 +23,20 @@ void setup() {
   pinMode(LATCH_PIN, OUTPUT);
   pinMode(CLOCK_PIN, OUTPUT);
   pinMode(DATA_PIN, OUTPUT);
-  Serial.begin(9600);
-  randomSeed(analogRead(0));
-  addNewCreature();
 
-  for (int i = 0; i < SIZE; i++) {
-    clearLayer(i);
-  }
+  pinMode(PIR_PIN, INPUT);
+  pinMode(PIR_PIN2, INPUT);
+  pinMode(PIR_PIN3, INPUT);
+  pinMode(PIR_PIN4, INPUT);
+  pinMode(PIR_PIN5, INPUT);
+
+  Serial.begin(9600);
+  // randomSeed(analogRead(0));
+  // addNewCreature();
+
+  // for (int i = 0; i < SIZE; i++) {
+  //   clearLayer(i);
+  // }
 }
 
 void loop() {
@@ -33,7 +45,7 @@ void loop() {
   for (int i = 0; i < TIMES; i++){
     drawLayers(i);
   }
-  pushFrame(0, 0);
+  pushFrame(0, 1);
   frameCount++;
   clear();
 }
@@ -80,10 +92,32 @@ void draw() {
   // dot(7, oscillate(0, 8));
   // majorDiagonal(oscillate(-8, 8));
   // minorDiagonal(oscillate(-8, 8, 8));
-  int count = random(10);
-  for (int i = 0; i < count; i++) {
-    randomDot();
+  // int count = random(10);
+  // for (int i = 0; i < count; i++) {
+  //   randomDot();
+  // }
+  int value0 = digitalRead(PIR_PIN);
+  int value1 = digitalRead(PIR_PIN2);
+  int value2 = digitalRead(PIR_PIN3);
+  int value3 = digitalRead(PIR_PIN4);
+  int value4 = digitalRead(PIR_PIN5);
+
+  if (value0 == HIGH) {
+    dot(0, 0);
   }
+  if (value1 == HIGH) {
+    dot(0, 1);
+  }
+  if (value2 == HIGH) {
+    dot(0, 2);
+  }
+  if (value3 == HIGH) {
+    dot(0, 3);
+  }
+  if (value4 == HIGH) {
+    dot(0, 4);
+  }
+  delay(10);
 
   // drawChar(0x1);
   // cycleChars();
